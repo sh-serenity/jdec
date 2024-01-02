@@ -1,4 +1,4 @@
-This is just an example of counterproduction, but the code is quite working. If anyone wants to play around, they're welcome. Everything is based on Debian. I advise you to start it on a virtual machine.
+This is just an example of containerization, but the code is quite working. If anyone wants to play around, they're welcome. Everything is based on Debian. I advise you to start it on a virtual machine.
 git clone https://github.com/sh-serenity/jdec.git
 First you need to create bridge br0 on the main machine, even if it is virtual, but it should not sit behind NAT, namely br0. All my guests are in the /guests folder, but again, you can change the path to the directory where they are in the hruck.sh script. The script requires debootstrap. Everything there is simple and easy to change. And so you write ./hruck.sh example1
 
