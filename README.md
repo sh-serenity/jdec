@@ -1,9 +1,31 @@
-This is just an example of containerization, but the code is quite working. If anyone wants to play around, they're welcome. Everything is based on Debian. I advise you to start it on a virtual machine.
-git clone https://github.com/sh-serenity/jdec.git
-First you need to create bridge br0 on the main machine, even if it is virtual, namely br0. All my guests are in the /guests folder, but again, you can change the path to the directory where they are in the hruck.sh script. The script requires debootstrap. Everything there is simple and easy to change. And so you write ./hruck.sh example1
+В інтернеті багато прикладів, коли намагаються написати власні контейнери.
+Але я не знайшов жодного подібного до мого Він запускає в сітку віртуальну машину,
+яка повність контренує дебіан, можна взяти й інші гілки, на зразок убунту
+Але я відновився на дебіані. Принцип роботи той же що в docker, це всього лише
+Невеликий приклад як докер працює.
 
-Next is the assembly of the binary itself. No dependencies, except for the standard utilities in the build link: make all. Installation is not provided, because this is just a test version and works from the directory where it was compiled.  Container is must be in the same subnet if you are using NAT. When everything is ready to run ./jdec /guests/example1 192.168.1.10 (or whatever address you want to assign to it) 255.255.255.0 (again, I don’t know your subnet mask) 192.168.1.1(router) &
-I tested using ansible. In the directory ansible-playbooks/wordpress-lamp_ubuntu1804 there is a converted playbook for Debian. Accordingly, in hosts we write the address assigned to the container. Then install ssh container_adress apt-get install python3-minimal on the python3 container. Then ansible-playbook playbook.yml -i hosts. If everything went well, we get an empty WordPress on the container’s IP address.
-In the root directory there are several scripts with which you can build a full-fledged ceph on three such containers. But this was done rather for the sake of pampering, but if you are brave and you have enough space on the screw to allocate volumes for them, then no one bothers you.
-P.S. Ansible requires an Internet connection to work, so if you are testing this on a virtual machine, provide that as well.
-P.P.S Free code
+Я пускаю і на своєму великому серваку, але на серваках із продакеном не радив би.
+Я вже навчився гасити пожежу після невдалих запусків,
+тому наполягаю пускати у віртулці якщо захочете у віртуалці.
+Спочатку вам треба стовриеи брідж на ваші машині br0.
+Складання: make all
+Установка не передбачена. Після прочитання спалити.
+
+А ось далі все потрібно робити рута, зі згерірованим ключиками, і з паб ключем рута в
+authorized_keys
+
+Далі потрібно поставити болванку з операційною системою. В мене за це відповідає
+скрипт hruck.sh. #./hruck.sh имя_которое_в_голову пришло. Він автоматує у папку
+/guest Але ви можете це відредагувати скрипт дуже простий.
+
+Далі, власне, запускаємо сам конінізатор.
+
+./jdec guests/ім'я_що_в_голову вдрес_контейнера
+Потім пинаємо. І звичайно, якщо ви все зробили правильно ліземо по ssh і бачимо абсолютно порожню систему.
+А тепер щоб переконатися, що я не брешу і одна робоча, то хоч wordpress на неї поставимо.
+Пишемо apt-get update && apt-get install python3-minimal
+
+Так, я забув додати вордпрес ми будемо ставити ansible. Для цього в кореневій пачці проекту лежать скрипти
+Нам потрібен wordpress-lamp_ubuntu1804 Правте var і hosts, і ansible-playbook -i hosts playbook.yaml 
+Потім заходьте за адресою, що ви висли тачці, і побачите ворпрес. Правда я трохи я складніше на цьому ганяючи. 
+напркалд кластер з трьома контейнерами, що гоняли ceph
